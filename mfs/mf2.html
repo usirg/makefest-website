@@ -1,0 +1,160 @@
+<!doctype html>
+<html class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="../tailwind.css" rel="stylesheet">
+  <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+</head>
+
+<body class="dark:bg-black font-sans">
+
+  <div class="max-w-screen-xl mx-auto p-0 space-y-4">
+    <!-- header -->
+    <div class="z-50 bg-gray-900 p-2 pb-1 sm:h-auto sticky top-0 ">
+
+      <!-- title -->
+      <div class="-space-y-0 sm:-space-y-1">
+
+        <div
+          class="leading-none text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl word-spacing-sm tracking-tightest font-black">
+          <span class="text-red-800">Make</span>
+          <span class="text-red-600">Fest</span>
+        </div>
+
+        <div class="leading-none text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-black text-gray-600">
+          game dev and other fun stuff
+        </div>
+
+      </div>
+
+      <!-- close button -->
+      <button onclick="history.back(-1)" class="m-2 w-12 h-12 absolute top-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="top-0 right-0 absolute h-8 sm:h-9 md:h-10 lg:h-11 xl:h-12 w-8 sm:w-9 md:w-10 lg:w-11 xl:w-12 stroke-0 stroke-current text-gray-600 hover:text-gray-200"
+          viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+
+    <!-- event     -->
+    <div class="flex justify-center mx-auto">
+      <div class="rounded-2xl bg-gray-900">
+        <!-- heading -->
+        <div class="rounded-2xl rounded-b-none py-2 bg-gray-800">
+          <div class="h-20 relative">
+            <div class="px-4 py-2 absolute top-0 left-0 text-gray-400 font-black text-2xl">MF 2</div>
+            <div class="px-4 py-2 absolute top-0 right-0 text-gray-600 font-black text-xl">Nov 2020 - Feb 2021</div>
+            <div class="px-4 py-2 absolute bottom-0 left-0 text-gray-300 font-black text-base truncate">Starterkurs Spieleentwicklung</div>
+          </div>
+        </div>
+        <!-- body -->
+        <div class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-4 dark:prose-light m-4">
+          <p style="margin-top: 0">In diesem Workshop haben wir ein einfaches Spiel entwickelt. Das folgende Video gibt einen Eindruck davon:</p>
+
+          <!-- video -->
+          <video class="" controls playsinline
+            poster="https://res.cloudinary.com/simhub/video/upload/v1628097154/gdc2_qu9pks.jpg">
+            <source src="https://res.cloudinary.com/simhub/video/upload/v1628097154/gdc2_qu9pks.mp4" type="video/mp4"
+              alt="GDC2 Game">
+            Your browser does not support the video tag.
+          </video>
+
+          <p>Die Teilnehmer haben dabei gelernt wie man:
+          <ul>
+            <li>eine einfache Spiel-Szene erstellt</li>
+            <li>den Spieler mit der Tastatur steuert</li>
+            <li>Kollisionen des Spielers mit anderen Gegenständen erkennt</li>
+            <li>Spielzeit und Punkte umsetzt</li>
+            <li>Informationen auf dem Bildschirm ausgibt</li>
+          </ul>
+          </p>
+
+          <p>Hier kann das Spiel direkt ausprobiert werden. In dieser Version ist nur die Steuerung mit WASD bzw. den Pfeiltasten umgesetzt, sodass eine Tastatur erforderlich ist.</p>
+          <!-- game -->
+          <div class="w-full">
+            <div id="unity-container" class="unity-desktop">
+              <canvas id="unity-canvas" style="width: 100%;"></canvas>
+              <div id="unity-loading-bar">
+                <div id="unity-logo"></div>
+                <div id="unity-progress-bar-empty">
+                  <div id="unity-progress-bar-full"></div>
+                </div>
+              </div>
+              <div id="unity-mobile-warning">
+              </div>        
+              <div id="unity-footer">
+                <div id="unity-webgl-logo"></div>
+                <button class="bg-gray-600 text-white px-2 rounded-lg" id="unity-fullscreen-button">fullscreen</button>
+              </div>
+            </div>
+          </div>
+          <script>
+            var buildUrl = "../games/gdc2/Build";
+            var loaderUrl = buildUrl + "/GDC2.loader.js";
+            var config = {
+              dataUrl: buildUrl + "/GDC2.data",
+              frameworkUrl: buildUrl + "/GDC2.framework.js",
+              codeUrl: buildUrl + "/GDC2.wasm",
+              streamingAssetsUrl: "StreamingAssets",
+              companyName: "SimHub",
+              productName: "GDC2",
+              productVersion: "0.1",
+            };
+      
+            var container = document.querySelector("#unity-container");
+            var canvas = document.querySelector("#unity-canvas");
+            var loadingBar = document.querySelector("#unity-loading-bar");
+            var progressBarFull = document.querySelector("#unity-progress-bar-full");
+            var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+            var mobileWarning = document.querySelector("#unity-mobile-warning");
+      
+            // By default Unity keeps WebGL canvas render target size matched with
+            // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+            // Set this to false if you want to decouple this synchronization from
+            // happening inside the engine, and you would instead like to size up
+            // the canvas DOM size and WebGL render target sizes yourself.
+            // config.matchWebGLToCanvasSize = false;
+      
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+              container.className = "unity-mobile";
+              // Avoid draining fillrate performance on mobile devices,
+              // and default/override low DPI mode on mobile browsers.
+              config.devicePixelRatio = 1;
+              mobileWarning.style.display = "block";
+              setTimeout(() => {
+                mobileWarning.style.display = "none";
+              }, 5000);
+            } else {
+               //canvas.style.width = "960px";
+               //canvas.style.height = "600px";
+            }
+            loadingBar.style.display = "block";
+      
+            var script = document.createElement("script");
+            script.src = loaderUrl;
+            script.onload = () => {
+              createUnityInstance(canvas, config, (progress) => {
+                progressBarFull.style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+            document.body.appendChild(script);
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
