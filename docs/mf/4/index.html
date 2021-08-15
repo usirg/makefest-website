@@ -1,0 +1,77 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MakeFest</title><link rel="stylesheet" href="/_astro/common-ZblDmA.css" type="text/css"><link href="https://rsms.me/inter/inter.css" rel="stylesheet"></head><body class="dark:bg-black font-sans"><div class="max-w-screen-xl mx-auto p-0 space-y-0"><div class="z-50 bg-gray-900 p-2 border-black border-b-8 sm:h-auto sticky top-0 "><div class="-space-y-0 sm:-space-y-1"><div class="leading-none text-6xl word-spacing-sm tracking-tightest font-black"><span class="text-red-800">Make</span><span class="text-red-600">Fest</span></div><div class="leading-none text-2xl font-black text-gray-600">
+                game dev and other fun stuff
+            </div></div><button type="button" onclick="history.back(-1)" class="m-2 w-12 h-12 absolute top-0 right-0"><svg xmlns="http://www.w3.org/2000/svg" class="top-0 right-0 absolute h-12 w-12 stroke-0 stroke-current text-gray-600 hover:text-gray-200" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg></button></div><div class="flex justify-center mx-auto rounded-2xl bg-gray-900"><div class=""><div class="prose sm:prose-lg lg:prose-lg xl:prose-xl mx-4 dark:prose-light m-4 mt-5 md:mt-16 lg:mt-32"><div class="h-14 relative"><div class="px-0 py-2 absolute top-0 left-0 text-gray-400 font-black text-4xl">MF 4</div><div class="px-0 py-2 absolute top-0 right-0 text-gray-600 font-black text-xl">Mar - Jun 2021</div></div><div class="px-0 py-2  text-gray-300 font-black text-4xl md:text-5xl lg:text-6xl">Aufbaukurs Spieleentwicklung</div><video class="w-full" controls="" playsinline="" poster="https://res.cloudinary.com/simhub/video/upload/v1628250701/gdc4_pozufu.jpg"><source src="https://res.cloudinary.com/simhub/video/upload/v1628250701/gdc4_pozufu.mp4" type="video/mp4" alt="MF4 Game">
+    Your browser does not support the video tag.
+</video><p>In diesem Workshop haben wir die Programmiersprache C# und die Grundlagen der objektorientierten Programmierung gelernt. Damit haben wir dann das Spiel aus Kurs MF2 weiterentwickelt.</p>
+<p>Die Teilnehmer haben dabei gelernt wie man:</p>
+<ul>
+<li>die grundlegenden Elemente von C# verwendet (Typen, Variablen, Ausdrücke, Zuweisungen, Methoden, Funktionen, Eigenschaften, Klassen)</li>
+<li>ein einfaches Anwendungsproblem objektorientiert programmiert</li>
+<li>das Spiel durch weitere Objekte interessanter macht</li>
+<li>wie man Modelle importiert und verwendet</li>
+<li>wie man die Behandlung verschiedener Spielobjekte effizient objektorientiert programmiert</li>
+<li>wie man Portale programmiert</li>
+<li>wie man Gelände erstellt</li>
+</ul>
+<p>Hier kann das Spiel direkt ausprobiert werden. In dieser Version ist nur die Steuerung mit WASD bzw. den Pfeiltasten umgesetzt, sodass eine Tastatur erforderlich ist.</p><div class="w-full"><div id="unity-container" class="unity-desktop"><canvas id="unity-canvas" style="width: 100%;"></canvas><div id="unity-loading-bar"><div id="unity-logo"></div><div id="unity-progress-bar-empty"><div id="unity-progress-bar-full"></div></div></div><div id="unity-mobile-warning"></div><div id="unity-footer"><div id="unity-webgl-logo"></div><button class="bg-gray-600 text-white px-2 rounded-lg" id="unity-fullscreen-button">fullscreen</button></div></div></div><script folder="mf4" filepartial="GDC4">
+    var folder = document.currentScript.getAttribute('folder');
+    var filePartial = document.currentScript.getAttribute('filePartial');
+    console.log('folder: ' + folder);
+    var buildUrl = "/games/" + folder + "/Build";
+
+    var loaderUrl = buildUrl + "/" + filePartial + ".loader.js";
+    var config = {
+        dataUrl: buildUrl + "/" + filePartial + ".data",
+        frameworkUrl: buildUrl + "/" + filePartial + ".framework.js",
+        codeUrl: buildUrl + "/" + filePartial + ".wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "SimHub",
+        productName: "MF",
+        productVersion: "0.1",
+    };
+
+    var container = document.querySelector("#unity-container");
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingBar = document.querySelector("#unity-loading-bar");
+    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    var mobileWarning = document.querySelector("#unity-mobile-warning");
+
+    // By default Unity keeps WebGL canvas render target size matched with
+    // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+    // Set this to false if you want to decouple this synchronization from
+    // happening inside the engine, and you would instead like to size up
+    // the canvas DOM size and WebGL render target sizes yourself.
+    // config.matchWebGLToCanvasSize = false;
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        mobileWarning.style.display = "block";
+        setTimeout(() => {
+        mobileWarning.style.display = "none";
+        }, 5000);
+    } else {
+        //canvas.style.width = "960px";
+        //canvas.style.height = "600px";
+    }
+    loadingBar.style.display = "block";
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+        progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+        loadingBar.style.display = "none";
+        fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+        };
+        }).catch((message) => {
+        alert(message);
+        });
+    };
+    document.body.appendChild(script);
+</script></div></div></div></div></body></html>
